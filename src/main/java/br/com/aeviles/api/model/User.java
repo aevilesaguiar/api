@@ -1,4 +1,4 @@
-package br.com.aeviles.api.domain;
+package br.com.aeviles.api.model;
 
 
 import lombok.AllArgsConstructor;
