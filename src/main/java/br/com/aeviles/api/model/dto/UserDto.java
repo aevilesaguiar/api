@@ -15,7 +15,7 @@ public class UserDto {
     private Integer id;
     private String name;
     private String email;
-    @JsonIgnore
+    @JsonIgnore//omite esse atributo
     private String password;
 
 }
