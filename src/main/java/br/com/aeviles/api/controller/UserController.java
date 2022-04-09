@@ -1,6 +1,8 @@
 package br.com.aeviles.api.controller;
 
 import br.com.aeviles.api.model.User;
+import br.com.aeviles.api.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/user")
 public class UserController {
 
+    @Autowired
+    private UserService service;
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Integer id){
-        return ResponseEntity.ok().body(new User(1,"Aeviles","aev@aev.com","12345678"));
+        return ResponseEntity.ok().body(service.findById(id));
 
     }
 
