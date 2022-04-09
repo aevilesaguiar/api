@@ -11,6 +11,10 @@ programação Ruby, mas agora suporta Java, Node.js, Scala, Clojure, Python, PHP
 
 - SELECT * FROM USUARIO
 
+## acessar h2
+
+http://localhost:8080/h2-console/login.do?jsessionid=aa136e0361cda9f6b4d469c9f23cae76
+
 ## Referencias
 
 - [Lombok](https://projectlombok.org/)
