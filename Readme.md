@@ -7,6 +7,10 @@ programação Ruby, mas agora suporta Java, Node.js, Scala, Clojure, Python, PHP
 
 
 
+## Comandos sql Utilizados pelo jpa
+
+- SELECT * FROM USUARIO
+
 ## Referencias
 
 - [Lombok](https://projectlombok.org/)

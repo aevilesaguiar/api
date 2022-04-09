@@ -1,11 +1,14 @@
 package br.com.aeviles.api.services.impl;
 
+import br.com.aeviles.api.config.ModelMapperConfig;
 import br.com.aeviles.api.model.User;
+import br.com.aeviles.api.model.dto.UserDto;
 import br.com.aeviles.api.repository.UserRepository;
 import br.com.aeviles.api.services.UserService;
 import br.com.aeviles.api.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ModelMapper mapper;
 
     //buscar por id
     @Override
@@ -31,6 +37,12 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public User create(UserDto obj) {
+        return repository.save(mapper.map(obj, User.class));
+    }
+
 
 
 }

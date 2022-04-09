@@ -1,6 +1,7 @@
 package br.com.aeviles.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class UserDto {
     private Integer id;
     private String name;
     private String email;
-    @JsonIgnore//omite esse atributo
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//libera apenas a escrita só que para leitura não
     private String password;
 
 }
