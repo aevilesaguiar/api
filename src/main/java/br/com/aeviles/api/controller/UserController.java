@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/user")
 public class UserController {
 
+    //boa prática para não ter que repetir muito código
+    public static final String ID = "/{id}";
     //instancia do model Mapper que foi defiidio na classe ModelMapperConfig
     @Autowired
     private ModelMapper mapper;
@@ -24,7 +26,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = ID)
     public ResponseEntity<UserDto> findById(@PathVariable Integer id){
         return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDto.class));
 
@@ -41,13 +43,13 @@ public class UserController {
     public ResponseEntity<UserDto> create(@RequestBody UserDto obj){
         User newObj=service.create(obj);
 
-        URI uri= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+        URI uri= ServletUriComponentsBuilder.fromCurrentRequest().path(ID).buildAndExpand(newObj.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
 
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = ID)
     public ResponseEntity<UserDto> update(@PathVariable Integer id, @RequestBody UserDto obj){
         obj.setId(id);
         User newObj = service.update(obj);
@@ -56,5 +58,12 @@ public class UserController {
 
     }
 
+@DeleteMapping(value = ID)
+    public  ResponseEntity<UserDto> delete(@PathVariable Integer id){
+        service.delete(id);
+
+        return ResponseEntity.noContent().build();
+
+}
 
 }
