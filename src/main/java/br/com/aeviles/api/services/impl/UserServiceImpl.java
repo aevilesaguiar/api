@@ -1,6 +1,5 @@
 package br.com.aeviles.api.services.impl;
 
-import br.com.aeviles.api.config.ModelMapperConfig;
 import br.com.aeviles.api.model.User;
 import br.com.aeviles.api.model.dto.UserDto;
 import br.com.aeviles.api.repository.UserRepository;
@@ -45,10 +44,20 @@ public class UserServiceImpl implements UserService {
         return repository.save(mapper.map(obj, User.class));
     }
 
+    @Override
+    public User update(UserDto obj) {
+
+        findByEmail(obj);
+        return repository.save(mapper.map(obj, User.class));
+    }
+
+
+    //TRATAR O EMAIL CASO O MESMO REPITA
     private void findByEmail(UserDto obj){
         Optional<User> user=repository.findByEmail(obj.getEmail());
 
-        if(user.isPresent()){
+        if(user.isPresent() && !user.get().getId().equals(obj.getId())){// se o ig desse cara for diferente do id que
+                                                  // veio como parametro quer dizer que é o id de outro usuario, então lança a exceção para ele , senão segue fluxo
             throw new DataIntegratyViolationException("Email já cadastrado no sistema");
         }
     }
