@@ -3,8 +3,7 @@ package br.com.aeviles.api.services.impl;
 import br.com.aeviles.api.domain.User;
 import br.com.aeviles.api.domain.dto.UserDto;
 import br.com.aeviles.api.repository.UserRepository;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.Assertions;
+import br.com.aeviles.api.services.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -76,6 +82,24 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());//ele está comparando o ID que eu passei com o id da classe
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+
+    }
+
+
+    @Test
+    @DisplayName(" When find by iD then Return An Object Not Found Exception - quando procurar por um id retornar um not Found Exception" )
+    void findByIdObjectNotFoundException(){
+
+        //quando chamar um método findById , estoure uma exceção do tipo ObjectNotFound exception  com essa mensagem("objeto não encontrado"));
+        //ou seja estamos mockando a mensagem
+        when(repository.findById(Mockito.anyInt())).thenThrow( new ObjectNotFoundException("objeto não encontrado"));//thenThrow -> lança uma exceção
+                                                                                                                    //ObjectNotFoundException é do Hibbernate
+    try {
+        service.findById(ID);
+    }catch (Exception ex){
+        assertEquals(ObjectNotFoundException.class, ex.getClass()); //assegure que essa exceção que foi lançada é um object do tipo Object not found
+        assertEquals("objeto não encontrado", ex.getMessage());//assegure para mim que essas mensagens são iguais
+    }
 
     }
 
