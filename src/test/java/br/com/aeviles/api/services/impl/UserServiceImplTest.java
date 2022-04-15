@@ -33,6 +33,8 @@ class UserServiceImplTest {
     public static final String NAME = "Aeviles Aguiar";
     public static final String EMAIL = "aev@aev.com";
     public static final String PASSWORD = "123";
+    public static final String OBJETO_NAO_ENCONTRADO = "objeto não encontrado";
+    public static final int INDEX = 0;
     @InjectMocks //ele vaic riar uma instancia real de UserServiceImpl, os demais ele vai mockar de mentira, eu preciso dessa instancia real por que vou testar os métodos
     private UserServiceImpl service;
 
@@ -92,19 +94,36 @@ class UserServiceImplTest {
 
         //quando chamar um método findById , estoure uma exceção do tipo ObjectNotFound exception  com essa mensagem("objeto não encontrado"));
         //ou seja estamos mockando a mensagem
-        when(repository.findById(Mockito.anyInt())).thenThrow( new ObjectNotFoundException("objeto não encontrado"));//thenThrow -> lança uma exceção
+        when(repository.findById(Mockito.anyInt())).thenThrow( new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));//thenThrow -> lança uma exceção
                                                                                                                     //ObjectNotFoundException é do Hibbernate
     try {
         service.findById(ID);
     }catch (Exception ex){
         assertEquals(ObjectNotFoundException.class, ex.getClass()); //assegure que essa exceção que foi lançada é um object do tipo Object not found
-        assertEquals("objeto não encontrado", ex.getMessage());//assegure para mim que essas mensagens são iguais
+        assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());//assegure para mim que essas mensagens são iguais
     }
 
     }
 
     @Test
+    @DisplayName("when find all then return An List of Users - quando buscar todos retorne uma lista de todos os usuarios")
     void findAll() {
+
+        when(repository.findAll()).thenReturn(List.of(user));
+        List<User> response=service.findAll();
+
+        assertNotNull(response);//não pode ser vazio
+        assertEquals(1, response.size());//eu quero assegurar que o tamanho da lista seja de apenas 1, pois eu adicionei apenas um usuario
+        assertEquals(User.class,response.get(INDEX).getClass() );// eu quero assegurar que o meu User.class é igual ao response.get no index (0) .getClass() e que tenha a classe do tipo user
+        //asseguro que o objeto que está vindo no index 0 da minha lista tem o id igual ao ID que temos constantes
+        assertEquals(ID,response.get(INDEX).getId());
+        assertEquals(NAME,response.get(INDEX).getName());
+        assertEquals(EMAIL,response.get(INDEX).getEmail());
+        assertEquals(PASSWORD,response.get(INDEX).getPassword());
+
+
+
+
     }
 
     @Test
