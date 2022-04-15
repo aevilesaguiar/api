@@ -1,7 +1,7 @@
 package br.com.aeviles.api.config;
 //configuração do perfil de teste
 
-import br.com.aeviles.api.model.User;
+import br.com.aeviles.api.domain.User;
 import br.com.aeviles.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

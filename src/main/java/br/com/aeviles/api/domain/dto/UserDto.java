@@ -1,6 +1,5 @@
-package br.com.aeviles.api.model.dto;
+package br.com.aeviles.api.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package br.com.aeviles.api.services;
 
-import br.com.aeviles.api.model.User;
-import br.com.aeviles.api.model.dto.UserDto;
+import br.com.aeviles.api.domain.User;
+import br.com.aeviles.api.domain.dto.UserDto;
 
 import java.util.List;
 

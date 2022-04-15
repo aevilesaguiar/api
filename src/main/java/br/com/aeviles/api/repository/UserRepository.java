@@ -1,6 +1,6 @@
 package br.com.aeviles.api.repository;
 
-import br.com.aeviles.api.model.User;
+import br.com.aeviles.api.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

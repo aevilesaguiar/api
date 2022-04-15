@@ -1,7 +1,7 @@
 package br.com.aeviles.api.services.impl;
 
-import br.com.aeviles.api.model.User;
-import br.com.aeviles.api.model.dto.UserDto;
+import br.com.aeviles.api.domain.User;
+import br.com.aeviles.api.domain.dto.UserDto;
 import br.com.aeviles.api.repository.UserRepository;
 import br.com.aeviles.api.services.UserService;
 import br.com.aeviles.api.services.exception.DataIntegratyViolationException;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
