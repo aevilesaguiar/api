@@ -127,7 +127,20 @@ class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("when create then return sucess")
     void create() {
+
+        when(repository.save(any())).thenReturn(user);
+
+        User response = service.create(userDto);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(NAME, response.getName());
+
     }
 
     @Test
