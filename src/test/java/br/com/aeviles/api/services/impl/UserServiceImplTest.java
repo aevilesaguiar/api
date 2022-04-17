@@ -3,6 +3,7 @@ package br.com.aeviles.api.services.impl;
 import br.com.aeviles.api.domain.User;
 import br.com.aeviles.api.domain.dto.UserDto;
 import br.com.aeviles.api.repository.UserRepository;
+import br.com.aeviles.api.services.exception.DataIntegratyViolationException;
 import br.com.aeviles.api.services.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.Optional;
 
@@ -101,6 +103,8 @@ class UserServiceImplTest {
     }catch (Exception ex){
         assertEquals(ObjectNotFoundException.class, ex.getClass()); //assegure que essa exceção que foi lançada é um object do tipo Object not found
         assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());//assegure para mim que essas mensagens são iguais
+
+
     }
 
     }
@@ -142,6 +146,22 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
 
     }
+
+
+    @Test
+    @DisplayName("when create then return An Data Integrity Violation Exception")
+    void whenUpdateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(2);
+            service.create(userDto);
+        } catch (Exception ex) {
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals("Email já cadastrado no sistema", ex.getMessage());
+        }
+    }
+
 
     @Test
     void update() {
