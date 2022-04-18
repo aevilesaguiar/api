@@ -147,6 +147,39 @@ class UserServiceImplTest {
 
     }
 
+    @Test
+    @DisplayName("when update then return sucess")
+    void updateReturnSucess() {
+
+        when(repository.save(any())).thenReturn(user);
+
+        User response = service.update(userDto);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(NAME, response.getName());
+
+    }
+
+
+    @Test
+    @DisplayName("when update then return sucess An Data Integrity Violation Exception")
+    void createReturnViolationException() {
+
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+        try {
+            optionalUser.get().setId(2);
+            service.create(userDto);
+        }catch (Exception e){
+            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals("Email já cadastrado no sistema", e.getMessage());
+        }
+
+    }
+
 
     @Test
     @DisplayName("when create then return An Data Integrity Violation Exception")
@@ -164,12 +197,29 @@ class UserServiceImplTest {
 
 
     @Test
-    void update() {
+    @DisplayName(" delete With Sucess")
+    void deleteWithSuccess() {
+        when(repository.findById(anyInt())).thenReturn(optionalUser);
+        doNothing().when(repository).deleteById(anyInt());
+        service.delete(ID);
+    //verificar quantas vezes o meu repository foi chamado no metodo deleteById , eu espero que seja 1 vez, senão está errado
+        verify(repository, times(1)).deleteById(anyInt());
     }
 
+
     @Test
-    void delete() {
+    void deleteWithObjectNoutFoundException(){
+
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+        try {
+            service.delete(ID);
+        }catch (Exception ex){
+            assertEquals("Objeto não encontrado", ex.getMessage());
+
+        }
+
     }
+
 
 
 
