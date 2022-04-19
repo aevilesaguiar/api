@@ -105,10 +105,27 @@ class UserControllerTest {
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertNotNull(response.getHeaders().get("Location"));//a chave location é a chave de acesso
 
+
     }
 
     @Test
-    void update() {
+    void WhenUpdateThenReturnSucess() {
+        Mockito.when(service.update(userDto)).thenReturn(user);
+        Mockito.when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(userDto);
+
+        ResponseEntity<UserDto> response = userController.update(ID, userDto);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(ResponseEntity.class, response.getClass());
+        Assertions.assertEquals(UserDto.class, response.getBody().getClass());
+
+        Assertions.assertEquals(ID, response.getBody().getId());
+        Assertions.assertEquals(NAME, response.getBody().getName());
+        Assertions.assertEquals(EMAIL, response.getBody().getEmail());
+
+
     }
 
     @Test
